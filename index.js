@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 
 
-app.use("/static",express.static("public"));
+app.use("/static", express.static("public"));
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -13,10 +13,8 @@ app.get('/', (req, res) => {
 });
 
 // POST Method
-
-
-app.post('/',(req, res) => {
+app.post('/', (req, res) => {
     console.log(req.body);
-    });
+});
 
 app.listen(3000, () => console.log("Server is running without error"));
