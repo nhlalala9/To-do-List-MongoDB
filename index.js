@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 
 // models
-const TodoTask =require("./models/TodoTask");
+const TodoTask = require("./models/TodoTask");
 
 
 dotenv.config();
@@ -29,12 +29,21 @@ app.listen(3000, () => console.log("Server is running without error"));
 app.set("view engine", "ejs");
 
 // GET Method
-
-app.get('/', (req, res) => {
-    res.render('todo.ejs');
+app.get("/", (req, res) => {
+    TodoTask.find({}, (err, tasks) => {
+        res.render("todo.ejs", { todoTasks: tasks });
+    });
 });
 
-// POST Method
-app.post('/', (req, res) => {
-    console.log(req.body);
+//POST METHOD
+app.post('/', async (req, res) => {
+    const todoTask = new TodoTask({
+        content: req.body.content
+    });
+    try {
+        await todoTask.save();
+        res.redirect("/");
+    } catch (err) {
+        res.redirect("/");
+    }
 });
